@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --celo-green: #35D07F;
+  --celo-gold: #FBCC5C;
+}
+
+body {
+  background-color: #0f1117;
+  color: #e2e8f0;
+}

@@ -1,0 +1,9 @@
+node_modules/
+.next/
+dist/
+.env
+.env.local
+packages/hardhat/cache/
+packages/hardhat/artifacts/
+packages/hardhat/deployments/*.json
+packages/react-app/src/lib/deployments.json

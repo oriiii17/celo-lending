@@ -1,0 +1,13 @@
+{
+  "name": "celo-lending-dapp",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "yarn workspace @celo-lending/react-app dev",
+    "build": "yarn workspace @celo-lending/react-app build",
+    "deploy:contracts": "yarn workspace @celo-lending/hardhat deploy"
+  }
+}
