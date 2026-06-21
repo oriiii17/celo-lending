@@ -30,13 +30,13 @@ export function useLendingPool() {
   });
 
   // cUSD balance
-  const { data: cUSDBalance } = useBalance({
+  const { data: cUSDBalance, refetch: refetchCUSD } = useBalance({
     address,
     token: cUSDAddress,
   });
 
   // CELO balance
-  const { data: celoBalance } = useBalance({ address });
+  const { data: celoBalance, refetch: refetchCelo } = useBalance({ address });
 
   // cUSD allowance
   const { data: allowance, refetch: refetchAllowance } = useReadContract({
@@ -53,6 +53,8 @@ export function useLendingPool() {
     refetchAccount();
     refetchPool();
     refetchAllowance();
+    refetchCUSD();
+    refetchCelo();
   };
 
   async function deposit(amountStr: string) {
