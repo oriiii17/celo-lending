@@ -18,14 +18,16 @@ const config: HardhatUserConfig = {
   },
   networks: {
     alfajores: {
-      url: "https://alfajores-forno.celo-testnet.org",
+      url: process.env.ALFAJORES_RPC_URL || "https://celo-alfajores.publicnode.com",
       accounts: [PRIVATE_KEY],
       chainId: 44787,
+      timeout: 60000,
     },
     celo: {
-      url: "https://forno.celo.org",
+      url: process.env.CELO_RPC_URL || "https://forno.celo.org",
       accounts: [PRIVATE_KEY],
       chainId: 42220,
+      timeout: 60000,
     },
   },
 };

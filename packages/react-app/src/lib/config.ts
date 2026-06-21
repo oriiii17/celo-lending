@@ -18,8 +18,8 @@ export const CUSD_ADDRESS: Record<number, `0x${string}`> = {
 
 // LendingPool deployed addresses (updated after deploy)
 export const LENDING_POOL_ADDRESS: Record<number, `0x${string}`> = {
-  [celoAlfajores.id]: "0x0000000000000000000000000000000000000000", // update after deploy
-  [celo.id]: "0x0000000000000000000000000000000000000000",
+  [celoAlfajores.id]: "0x8AD4A5e535a89C60Ae854f20b5F2d2D1A26aD822",
+  [celo.id]: "0x8AD4A5e535a89C60Ae854f20b5F2d2D1A26aD822",
 };
 
 export const LENDING_POOL_ABI = [
