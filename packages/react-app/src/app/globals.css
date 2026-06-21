@@ -16,7 +16,7 @@
   --muted: #4A5568;
 }
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
 
 html { scroll-behavior: smooth; }
 
@@ -54,6 +54,8 @@ body {
   z-index: 0;
 }
 .gradient-border > * { position: relative; z-index: 1; }
+
+input, textarea { user-select: text; -webkit-user-select: text; }
 
 /* ── Input ── */
 .defi-input {
