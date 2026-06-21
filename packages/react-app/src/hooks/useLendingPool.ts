@@ -55,31 +55,21 @@ export function useLendingPool() {
     refetchAllowance();
   };
 
-  async function approvecUSD(amount: bigint) {
-    const toastId = toast.loading("Approving cUSD...");
-    try {
-      const hash = await writeContractAsync({
-        address: cUSDAddress,
-        abi: ERC20_ABI,
-        functionName: "approve",
-        args: [lendingPoolAddress, amount],
-      });
-      toast.success("cUSD approved!", { id: toastId });
-      return hash;
-    } catch (e: any) {
-      toast.error(e.shortMessage ?? "Approval failed", { id: toastId });
-      throw e;
-    }
-  }
-
   async function deposit(amountStr: string) {
     const amount = parseUnits(amountStr, 18);
-    const toastId = toast.loading("Depositing cUSD...");
+    const toastId = toast.loading("Preparing deposit...");
     try {
       if (!allowance || allowance < amount) {
-        await approvecUSD(amount);
+        toast.loading("Step 1/2 — Approve cUSD in your wallet...", { id: toastId });
+        await writeContractAsync({
+          address: cUSDAddress,
+          abi: ERC20_ABI,
+          functionName: "approve",
+          args: [lendingPoolAddress, amount],
+        });
         await refetchAllowance();
       }
+      toast.loading("Step 2/2 — Confirm deposit in your wallet...", { id: toastId });
       const hash = await writeContractAsync({
         address: lendingPoolAddress,
         abi: LENDING_POOL_ABI,
@@ -90,7 +80,7 @@ export function useLendingPool() {
       refetchAll();
       return hash;
     } catch (e: any) {
-      toast.error(e.shortMessage ?? "Deposit failed", { id: toastId });
+      toast.error(e.shortMessage ?? "Transaction cancelled or failed", { id: toastId });
       throw e;
     }
   }
