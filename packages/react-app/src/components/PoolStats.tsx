@@ -53,20 +53,20 @@ export function PoolStats() {
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 animate-fade-up-2">
       {stats.map((s) => (
-        <div key={s.label} className="card card-lift p-5 cursor-default">
+        <div key={s.label} className="card card-lift p-4 sm:p-5 cursor-default overflow-hidden">
           {/* Top row */}
           <div className="flex items-start justify-between mb-4">
             <div className="p-2 rounded-xl" style={{ background: `${s.accent}12`, border: `1px solid ${s.accent}25` }}>
               {s.icon}
             </div>
-            <span className="text-xs font-medium px-2 py-1 rounded-lg"
+            <span className="text-xs font-medium px-2 py-1 rounded-lg hidden sm:block"
               style={{ background: `${s.accent}10`, color: s.accent }}>
               {s.change}
             </span>
           </div>
 
           {/* Value */}
-          <p className="text-2xl font-extrabold text-white leading-none mb-1">{s.value}</p>
+          <p className="text-lg sm:text-2xl font-extrabold text-white leading-none mb-1 truncate">{s.value}</p>
           <p className="text-xs" style={{ color: "#4A5568" }}>{s.label}</p>
 
           {/* Bottom bar */}

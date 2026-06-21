@@ -31,7 +31,7 @@ export default function HomePage() {
         }} />
       </div>
 
-      <main className="relative max-w-6xl mx-auto px-4 sm:px-6 py-16 space-y-14" style={{ zIndex: 1 }}>
+      <main className="relative max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-16 space-y-10 sm:space-y-14" style={{ zIndex: 1 }}>
 
         {/* ── HERO ── */}
         <section className="animate-fade-up text-center space-y-8">
@@ -64,7 +64,7 @@ export default function HomePage() {
 
           {/* Headline */}
           <div className="space-y-4">
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-white leading-[1.0] tracking-tight">
+            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black text-white leading-[1.0] tracking-tight">
               The Lending Protocol<br/>
               <span className="gradient-text">Built for CELO</span>
             </h1>
@@ -94,15 +94,19 @@ export default function HomePage() {
           </div>
 
           {/* Key stats inline */}
-          <div className="inline-flex items-center gap-px rounded-2xl overflow-hidden" style={{ border: "1px solid #182030" }}>
+          <div className="grid grid-cols-2 sm:grid-cols-4 rounded-2xl overflow-hidden w-full sm:w-auto sm:inline-grid" style={{ border: "1px solid #182030" }}>
             {[
               { label: "Collateral Ratio", value: "150%" },
               { label: "Borrow APR", value: "5.00%" },
               { label: "Gas Fee", value: "~$0.001" },
               { label: "Settlement", value: "Instant" },
             ].map((s, i) => (
-              <div key={s.label} className="px-5 py-3 text-center"
-                style={{ background: "#0C1120", borderRight: i < 3 ? "1px solid #182030" : "none" }}>
+              <div key={s.label} className="px-4 py-3 text-center"
+                style={{
+                  background: "#0C1120",
+                  borderRight: (i === 1 || i === 3) ? "none" : "1px solid #182030",
+                  borderBottom: i < 2 ? "1px solid #182030" : "none",
+                }}>
                 <p className="text-sm font-extrabold text-white">{s.value}</p>
                 <p className="text-xs mt-0.5" style={{ color: "#4A5568" }}>{s.label}</p>
               </div>

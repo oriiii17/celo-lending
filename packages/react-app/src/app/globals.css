@@ -63,13 +63,15 @@ input, textarea { user-select: text; -webkit-user-select: text; }
   background: var(--bg);
   border: 1.5px solid var(--border2);
   border-radius: 14px;
-  padding: 14px 16px;
+  padding: 16px 16px;
   color: white;
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: 600;
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
   font-family: 'Inter', sans-serif;
+  -webkit-appearance: none;
+  min-height: 56px;
 }
 .defi-input::placeholder { color: #2A3B50; font-weight: 500; font-size: 1rem; }
 .defi-input:focus {

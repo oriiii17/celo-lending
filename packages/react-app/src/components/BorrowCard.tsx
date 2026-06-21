@@ -66,7 +66,7 @@ export function BorrowCard() {
       <div className="card rounded-[19px] overflow-hidden">
 
         {/* Header */}
-        <div className="px-6 pt-6 pb-4" style={{ borderBottom: "1px solid #182030" }}>
+        <div className="px-4 sm:px-6 pt-4 sm:pt-6 pb-4" style={{ borderBottom: "1px solid #182030" }}>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="relative">
@@ -91,7 +91,7 @@ export function BorrowCard() {
         </div>
 
         {/* Position */}
-        <div className="px-6 py-4" style={{ borderBottom: "1px solid #182030" }}>
+        <div className="px-4 sm:px-6 py-4" style={{ borderBottom: "1px solid #182030" }}>
           <div className="grid grid-cols-2 gap-3 mb-3">
             <div className="p-3.5 rounded-2xl" style={{ background: "#060912", border: "1px solid #182030" }}>
               <p className="text-xs mb-2" style={{ color: "#4A5568" }}>Borrowed</p>
@@ -141,7 +141,7 @@ export function BorrowCard() {
         </div>
 
         {/* Form */}
-        <div className="px-6 py-5 space-y-4">
+        <div className="px-4 sm:px-6 py-4 sm:py-5 space-y-4">
           {/* Tabs */}
           <div className="flex gap-1 p-1 rounded-xl" style={{ background: "#060912", border: "1px solid #182030" }}>
             {(["borrow", "repay"] as Tab[]).map((t) => (
