@@ -1,10 +1,11 @@
 "use client";
 
 import { useAccount, useChainId, useReadContract, useWriteContract, useBalance } from "wagmi";
+import { waitForTransactionReceipt } from "@wagmi/core";
 import { parseEther, formatEther, parseUnits, formatUnits } from "viem";
 import { celoAlfajores } from "wagmi/chains";
 import toast from "react-hot-toast";
-import { LENDING_POOL_ADDRESS, LENDING_POOL_ABI, CUSD_ADDRESS, ERC20_ABI } from "@/lib/config";
+import { LENDING_POOL_ADDRESS, LENDING_POOL_ABI, CUSD_ADDRESS, ERC20_ABI, wagmiConfig } from "@/lib/config";
 
 export function useLendingPool() {
   const { address } = useAccount();
@@ -63,12 +64,13 @@ export function useLendingPool() {
     try {
       if (!allowance || allowance < amount) {
         toast.loading("Step 1/2 — Approve cUSD in your wallet...", { id: toastId });
-        await writeContractAsync({
+        const approveHash = await writeContractAsync({
           address: cUSDAddress,
           abi: ERC20_ABI,
           functionName: "approve",
           args: [lendingPoolAddress, amount],
         });
+        await waitForTransactionReceipt(wagmiConfig, { hash: approveHash });
         await refetchAllowance();
       }
       toast.loading("Step 2/2 — Confirm deposit in your wallet...", { id: toastId });
@@ -78,6 +80,7 @@ export function useLendingPool() {
         functionName: "deposit",
         args: [amount],
       });
+      await waitForTransactionReceipt(wagmiConfig, { hash });
       toast.success("Deposited successfully!", { id: toastId });
       refetchAll();
       return hash;
@@ -97,6 +100,7 @@ export function useLendingPool() {
         functionName: "withdraw",
         args: [amount],
       });
+      await waitForTransactionReceipt(wagmiConfig, { hash });
       toast.success("Withdrawn successfully!", { id: toastId });
       refetchAll();
       return hash;
@@ -116,6 +120,7 @@ export function useLendingPool() {
         functionName: "borrow",
         args: [amount],
       });
+      await waitForTransactionReceipt(wagmiConfig, { hash });
       toast.success("Borrowed successfully!", { id: toastId });
       refetchAll();
       return hash;
@@ -135,6 +140,7 @@ export function useLendingPool() {
         functionName: "repay",
         value: amount,
       });
+      await waitForTransactionReceipt(wagmiConfig, { hash });
       toast.success("Repaid successfully!", { id: toastId });
       refetchAll();
       return hash;
