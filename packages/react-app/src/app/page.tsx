@@ -225,23 +225,23 @@ export default function HomePage() {
         </div>
 
         {/* ── CONTRACT ── */}
-        <div className="card p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="p-2.5 rounded-xl" style={{ background: "rgba(53,208,127,0.1)", border: "1px solid rgba(53,208,127,0.15)" }}>
+        <div className="card p-4 sm:p-5 flex flex-col gap-4">
+          <div className="flex items-start gap-3">
+            <div className="p-2.5 rounded-xl shrink-0" style={{ background: "rgba(53,208,127,0.1)", border: "1px solid rgba(53,208,127,0.15)" }}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#35D07F" strokeWidth="1.8">
                 <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
                 <polyline points="14 2 14 8 20 8"/>
                 <line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
               </svg>
             </div>
-            <div>
+            <div className="min-w-0">
               <p className="text-xs font-medium mb-0.5" style={{ color: "#4A5568" }}>Smart Contract · Celo Mainnet</p>
-              <p className="font-mono text-xs text-white">0x8AD4A5e535a89C60Ae854f20b5F2d2D1A26aD822</p>
+              <p className="font-mono text-xs text-white break-all">0x8AD4A5e535a89C60Ae854f20b5F2d2D1A26aD822</p>
             </div>
           </div>
           <a href="https://celoscan.io/address/0x8AD4A5e535a89C60Ae854f20b5F2d2D1A26aD822"
             target="_blank" rel="noopener noreferrer"
-            className="shrink-0 flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all"
+            className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl text-sm font-semibold transition-all w-full"
             style={{ background: "rgba(53,208,127,0.1)", border: "1px solid rgba(53,208,127,0.2)", color: "#35D07F" }}
             onMouseEnter={e => (e.currentTarget.style.background = "rgba(53,208,127,0.15)")}
             onMouseLeave={e => (e.currentTarget.style.background = "rgba(53,208,127,0.1)")}>
