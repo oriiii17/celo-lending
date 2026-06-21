@@ -105,7 +105,7 @@ export function DepositCard() {
               <button onClick={() => setAmount(maxAmount.toFixed(4))}
                 className="font-medium transition-colors hover:text-white"
                 style={{ color: "#35D07F" }}>
-                MAX {maxAmount.toFixed(2)} cUSD
+                MAX {maxAmount.toFixed(4)} cUSD
               </button>
             </div>
             <div className="relative">
