@@ -44,9 +44,9 @@ export function Navbar() {
           <div className="relative">
             <div className="absolute inset-0 rounded-xl blur-md opacity-60"
               style={{ background: "linear-gradient(135deg, #35D07F, #FBCC5C)" }} />
-            <div className="relative w-9 h-9 rounded-xl flex items-center justify-center"
+            <div className="relative w-9 h-9 rounded-xl overflow-hidden flex items-center justify-center"
               style={{ background: "linear-gradient(135deg, #35D07F, #28C470)" }}>
-              <span className="text-black font-black text-sm tracking-tight">CL</span>
+              <img src="/logo.svg" alt="CeloLend" className="w-7 h-7" />
             </div>
           </div>
           <div className="hidden sm:block">
