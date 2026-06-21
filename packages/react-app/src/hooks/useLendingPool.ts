@@ -157,7 +157,7 @@ export function useLendingPool() {
     depositedcUSD: accountData ? formatUnits(accountData[0], 18) : "0",
     borrowedCELO: accountData ? formatEther(accountData[1]) : "0",
     maxBorrowCELO: accountData ? formatEther(accountData[2]) : "0",
-    healthFactor: accountData ? accountData[3] : 0n,
+    healthFactor: accountData ? accountData[3] : BigInt(0),
     // Pool data
     totalDeposited: poolData ? formatUnits(poolData[0], 18) : "0",
     totalBorrowed: poolData ? formatEther(poolData[1]) : "0",
