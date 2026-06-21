@@ -41,7 +41,7 @@ export function Navbar() {
 
         {/* Logo */}
         <div className="flex items-center gap-2.5 shrink-0">
-          <img src="/logo.svg" alt="CeloLend" className="w-9 h-9" />
+          <img src="/logo.svg" alt="CeloLend" className="w-12 h-12" />
           <div className="hidden sm:block">
             <p className="text-white font-bold text-base leading-none tracking-tight">CeloLend</p>
             <p className="text-xs leading-none mt-0.5" style={{ color: "#4A5568" }}>Decentralized Lending</p>
