@@ -41,14 +41,7 @@ export function Navbar() {
 
         {/* Logo */}
         <div className="flex items-center gap-2.5 shrink-0">
-          <div className="relative">
-            <div className="absolute inset-0 rounded-xl blur-md opacity-60"
-              style={{ background: "linear-gradient(135deg, #35D07F, #FBCC5C)" }} />
-            <div className="relative w-9 h-9 rounded-xl overflow-hidden flex items-center justify-center"
-              style={{ background: "linear-gradient(135deg, #35D07F, #28C470)" }}>
-              <img src="/logo.svg" alt="CeloLend" className="w-7 h-7" />
-            </div>
-          </div>
+          <img src="/logo.svg" alt="CeloLend" className="w-9 h-9" />
           <div className="hidden sm:block">
             <p className="text-white font-bold text-base leading-none tracking-tight">CeloLend</p>
             <p className="text-xs leading-none mt-0.5" style={{ color: "#4A5568" }}>Decentralized Lending</p>

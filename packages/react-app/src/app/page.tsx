@@ -259,10 +259,7 @@ export default function HomePage() {
       <footer style={{ borderTop: "1px solid #182030", marginTop: "80px" }}>
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl overflow-hidden flex items-center justify-center"
-              style={{ background: "linear-gradient(135deg, #35D07F, #28C470)" }}>
-              <img src="/logo.svg" alt="CeloLend" className="w-6 h-6" />
-            </div>
+            <img src="/logo.svg" alt="CeloLend" className="w-8 h-8" />
             <div>
               <p className="text-white font-bold text-sm">CeloLend</p>
               <p className="text-xs" style={{ color: "#4A5568" }}>Decentralized Lending Protocol</p>
