@@ -1,39 +1,101 @@
 "use client";
 
 import { ConnectButton } from "@rainbow-me/rainbowkit";
-import { useAccount, useChainId } from "wagmi";
-import { celoAlfajores, celo } from "wagmi/chains";
+import { useAccount, useBalance } from "wagmi";
+import { celo } from "wagmi/chains";
+import { formatEther } from "viem";
+import { useState } from "react";
 import { isMiniPay } from "@/lib/minipay";
+import { CeloIcon } from "./TokenIcon";
+
+const NAV_ITEMS = [
+  { label: "Lend", sectionId: "lend-section" },
+  { label: "Borrow", sectionId: "borrow-section" },
+  { label: "Dashboard", sectionId: "stats-section" },
+];
+
+function scrollTo(id: string) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.scrollIntoView({ behavior: "smooth", block: "start" });
+  } else {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+}
 
 export function Navbar() {
   const { address } = useAccount();
-  const chainId = useChainId();
   const miniPay = typeof window !== "undefined" && isMiniPay();
+  const { data: bal } = useBalance({ address, chainId: celo.id });
+  const [activeNav, setActiveNav] = useState("Lend");
 
-  const isCorrectNetwork = chainId === celoAlfajores.id || chainId === celo.id;
+  function handleNav(item: { label: string; sectionId: string }) {
+    setActiveNav(item.label);
+    scrollTo(item.sectionId);
+  }
 
   return (
-    <nav className="border-b border-gray-800 bg-gray-900/80 backdrop-blur-sm sticky top-0 z-50">
-      <div className="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-celo-green to-celo-gold flex items-center justify-center text-black font-bold text-sm">
-            CL
+    <nav style={{ background: "rgba(6,9,18,0.85)", borderBottom: "1px solid #182030" }}
+      className="sticky top-0 z-50 backdrop-blur-xl">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+
+        {/* Logo */}
+        <div className="flex items-center gap-2.5 shrink-0">
+          <div className="relative">
+            <div className="absolute inset-0 rounded-xl blur-md opacity-60"
+              style={{ background: "linear-gradient(135deg, #35D07F, #FBCC5C)" }} />
+            <div className="relative w-9 h-9 rounded-xl flex items-center justify-center"
+              style={{ background: "linear-gradient(135deg, #35D07F, #28C470)" }}>
+              <span className="text-black font-black text-sm tracking-tight">CL</span>
+            </div>
           </div>
-          <span className="font-bold text-lg text-white">CeloLend</span>
-          {miniPay && (
-            <span className="text-xs bg-celo-green/20 text-celo-green px-2 py-0.5 rounded-full border border-celo-green/30">
-              MiniPay
-            </span>
-          )}
+          <div className="hidden sm:block">
+            <p className="text-white font-bold text-base leading-none tracking-tight">CeloLend</p>
+            <p className="text-xs leading-none mt-0.5" style={{ color: "#4A5568" }}>Decentralized Lending</p>
+          </div>
         </div>
 
-        <div className="flex items-center gap-3">
-          {address && !isCorrectNetwork && (
-            <span className="text-xs text-yellow-400 bg-yellow-400/10 px-2 py-1 rounded">
-              Switch to CELO network
-            </span>
+        {/* Center nav */}
+        <div className="hidden md:flex items-center gap-1 p-1 rounded-xl" style={{ background: "#0C1120", border: "1px solid #182030" }}>
+          {NAV_ITEMS.map((item) => (
+            <button
+              key={item.label}
+              onClick={() => handleNav(item)}
+              className="px-4 py-1.5 rounded-lg text-sm font-medium transition-all"
+              style={{
+                color: activeNav === item.label ? "#fff" : "#4A5568",
+                background: activeNav === item.label ? "#182030" : "transparent",
+              }}>
+              {item.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Right */}
+        <div className="flex items-center gap-2.5 shrink-0">
+          {/* Network pill */}
+          <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl"
+            style={{ background: "#0C1120", border: "1px solid #182030" }}>
+            <span className="w-2 h-2 rounded-full pulse-dot" style={{ background: "#35D07F" }} />
+            <span className="text-xs font-medium" style={{ color: "#94a3b8" }}>Celo Mainnet</span>
+          </div>
+
+          {/* Balance */}
+          {address && bal && (
+            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl"
+              style={{ background: "#0C1120", border: "1px solid #182030" }}>
+              <CeloIcon size={14} />
+              <span className="text-xs font-semibold text-white">
+                {parseFloat(formatEther(bal.value)).toFixed(2)}
+              </span>
+            </div>
           )}
-          <ConnectButton chainStatus="icon" showBalance={false} />
+
+          {miniPay && (
+            <span className="badge badge-gold text-xs">MiniPay</span>
+          )}
+
+          <ConnectButton chainStatus="none" showBalance={false} />
         </div>
       </div>
     </nav>

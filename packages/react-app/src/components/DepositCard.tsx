@@ -2,106 +2,161 @@
 
 import { useState } from "react";
 import { useLendingPool } from "@/hooks/useLendingPool";
+import { CUSDIcon } from "./TokenIcon";
+
+type Tab = "deposit" | "withdraw";
 
 export function DepositCard() {
   const { depositedcUSD, cUSDBalance, deposit, withdraw } = useLendingPool();
-  const [depositAmount, setDepositAmount] = useState("");
-  const [withdrawAmount, setWithdrawAmount] = useState("");
+  const [tab, setTab] = useState<Tab>("deposit");
+  const [amount, setAmount] = useState("");
   const [loading, setLoading] = useState(false);
 
-  async function handleDeposit() {
-    if (!depositAmount || parseFloat(depositAmount) <= 0) return;
-    setLoading(true);
-    try {
-      await deposit(depositAmount);
-      setDepositAmount("");
-    } finally {
-      setLoading(false);
-    }
-  }
+  const deposited = parseFloat(depositedcUSD);
+  const balance = parseFloat(cUSDBalance);
+  const maxAmount = tab === "deposit" ? balance : deposited;
+  const utilPct = (deposited + balance) > 0 ? (deposited / (deposited + balance)) * 100 : 0;
 
-  async function handleWithdraw() {
-    if (!withdrawAmount || parseFloat(withdrawAmount) <= 0) return;
+  async function handleSubmit() {
+    if (!amount || parseFloat(amount) <= 0) return;
     setLoading(true);
     try {
-      await withdraw(withdrawAmount);
-      setWithdrawAmount("");
-    } finally {
-      setLoading(false);
-    }
+      tab === "deposit" ? await deposit(amount) : await withdraw(amount);
+      setAmount("");
+    } finally { setLoading(false); }
   }
 
   return (
-    <div className="bg-gray-900 border border-gray-800 rounded-2xl p-6 space-y-5">
-      <div className="flex items-center gap-2">
-        <div className="w-2 h-2 rounded-full bg-celo-green" />
-        <h2 className="font-semibold text-white">Deposit Collateral</h2>
-      </div>
+    <div className="gradient-border">
+      <div className="card rounded-[19px] overflow-hidden">
 
-      {/* Stats */}
-      <div className="bg-gray-800/50 rounded-xl p-4 grid grid-cols-2 gap-3 text-sm">
-        <div>
-          <p className="text-gray-400">Your Deposit</p>
-          <p className="text-white font-semibold">{parseFloat(depositedcUSD).toFixed(4)} cUSD</p>
+        {/* Header */}
+        <div className="px-6 pt-6 pb-4" style={{ borderBottom: "1px solid #182030" }}>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="relative">
+                <CUSDIcon size={36} />
+                <div className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full flex items-center justify-center"
+                  style={{ background: "#35D07F", border: "1.5px solid #060912" }}>
+                  <svg width="7" height="7" viewBox="0 0 24 24" fill="white"><path d="M20 6L9 17l-5-5" stroke="white" strokeWidth="3" fill="none"/></svg>
+                </div>
+              </div>
+              <div>
+                <p className="text-white font-bold text-base">cUSD Collateral</p>
+                <p className="text-xs" style={{ color: "#4A5568" }}>Celo Dollar · Stablecoin</p>
+              </div>
+            </div>
+            <div className="text-right">
+              <p className="text-xs" style={{ color: "#4A5568" }}>Supply APY</p>
+              <p className="text-sm font-bold text-green-400">0.00%</p>
+            </div>
+          </div>
         </div>
-        <div>
-          <p className="text-gray-400">Wallet Balance</p>
-          <p className="text-white font-semibold">{parseFloat(cUSDBalance).toFixed(4)} cUSD</p>
-        </div>
-      </div>
 
-      {/* Deposit */}
-      <div className="space-y-2">
-        <label className="text-sm text-gray-400">Deposit cUSD</label>
-        <div className="flex gap-2">
-          <input
-            type="number"
-            placeholder="0.00"
-            value={depositAmount}
-            onChange={(e) => setDepositAmount(e.target.value)}
-            className="flex-1 bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-celo-green"
-          />
-          <button
-            onClick={() => setDepositAmount(parseFloat(cUSDBalance).toFixed(4))}
-            className="text-xs text-celo-green hover:text-celo-green/80 px-2"
-          >
-            MAX
+        {/* Position summary */}
+        <div className="px-6 py-4" style={{ borderBottom: "1px solid #182030" }}>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="p-3.5 rounded-2xl" style={{ background: "#060912", border: "1px solid #182030" }}>
+              <p className="text-xs mb-2" style={{ color: "#4A5568" }}>Your Deposit</p>
+              <div className="flex items-end gap-1">
+                <p className="text-xl font-extrabold text-white">{deposited.toFixed(2)}</p>
+                <p className="text-xs font-medium mb-0.5" style={{ color: "#35D07F" }}>cUSD</p>
+              </div>
+              <p className="text-xs mt-1" style={{ color: "#4A5568" }}>≈ ${deposited.toFixed(2)}</p>
+            </div>
+            <div className="p-3.5 rounded-2xl" style={{ background: "#060912", border: "1px solid #182030" }}>
+              <p className="text-xs mb-2" style={{ color: "#4A5568" }}>Wallet</p>
+              <div className="flex items-end gap-1">
+                <p className="text-xl font-extrabold text-white">{balance.toFixed(2)}</p>
+                <p className="text-xs font-medium mb-0.5" style={{ color: "#94a3b8" }}>cUSD</p>
+              </div>
+              <p className="text-xs mt-1" style={{ color: "#4A5568" }}>Available to deposit</p>
+            </div>
+          </div>
+
+          {/* Usage bar */}
+          <div className="mt-3">
+            <div className="flex justify-between text-xs mb-1.5" style={{ color: "#4A5568" }}>
+              <span>Deposited ratio</span>
+              <span style={{ color: "#35D07F" }}>{utilPct.toFixed(1)}%</span>
+            </div>
+            <div className="h-1.5 rounded-full" style={{ background: "#182030" }}>
+              <div className="health-bar-fill" style={{ width: `${utilPct}%`, background: "linear-gradient(90deg, #35D07F, #28C470)" }} />
+            </div>
+          </div>
+        </div>
+
+        {/* Form */}
+        <div className="px-6 py-5 space-y-4">
+          {/* Tabs */}
+          <div className="flex gap-1 p-1 rounded-xl" style={{ background: "#060912", border: "1px solid #182030" }}>
+            {(["deposit", "withdraw"] as Tab[]).map((t) => (
+              <button key={t} onClick={() => { setTab(t); setAmount(""); }}
+                className={`tab-pill flex-1 capitalize ${tab === t ? "active" : ""}`}>
+                {t === "deposit" ? "Deposit" : "Withdraw"}
+              </button>
+            ))}
+          </div>
+
+          {/* Input */}
+          <div>
+            <div className="flex justify-between text-xs mb-2" style={{ color: "#4A5568" }}>
+              <span>Amount</span>
+              <button onClick={() => setAmount(maxAmount.toFixed(4))}
+                className="font-medium transition-colors hover:text-white"
+                style={{ color: "#35D07F" }}>
+                MAX {maxAmount.toFixed(2)} cUSD
+              </button>
+            </div>
+            <div className="relative">
+              <input
+                type="number" placeholder="0.00" value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                className="defi-input pr-24"
+              />
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
+                <CUSDIcon size={18} />
+                <span className="text-sm font-bold text-white">cUSD</span>
+              </div>
+            </div>
+
+            {/* USD value */}
+            {amount && (
+              <p className="text-xs mt-1.5 pl-1" style={{ color: "#4A5568" }}>
+                ≈ ${parseFloat(amount || "0").toFixed(2)} USD
+              </p>
+            )}
+          </div>
+
+          {/* Info row */}
+          <div className="p-3 rounded-xl space-y-2" style={{ background: "#060912", border: "1px solid #182030" }}>
+            <div className="flex justify-between text-xs">
+              <span style={{ color: "#4A5568" }}>Collateral ratio</span>
+              <span className="font-semibold" style={{ color: "#35D07F" }}>150%</span>
+            </div>
+            <div className="flex justify-between text-xs">
+              <span style={{ color: "#4A5568" }}>Max borrow power</span>
+              <span className="font-semibold text-white">66% of deposit</span>
+            </div>
+            <div className="flex justify-between text-xs">
+              <span style={{ color: "#4A5568" }}>Network fee</span>
+              <span className="font-semibold text-white">~$0.001</span>
+            </div>
+          </div>
+
+          <button onClick={handleSubmit} disabled={loading || !amount || parseFloat(amount) <= 0}
+            className={tab === "deposit" ? "btn-green" : "btn-outline"}>
+            {loading ? (
+              <span className="flex items-center justify-center gap-2">
+                <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24" fill="none">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+                </svg>
+                Confirming...
+              </span>
+            ) : tab === "deposit" ? "Deposit cUSD" : "Withdraw cUSD"}
           </button>
         </div>
-        <button
-          onClick={handleDeposit}
-          disabled={loading || !depositAmount}
-          className="w-full bg-celo-green hover:bg-celo-green/90 disabled:opacity-40 text-black font-semibold py-2.5 rounded-xl transition-colors"
-        >
-          {loading ? "Processing..." : "Deposit"}
-        </button>
-      </div>
-
-      {/* Withdraw */}
-      <div className="space-y-2">
-        <label className="text-sm text-gray-400">Withdraw cUSD</label>
-        <div className="flex gap-2">
-          <input
-            type="number"
-            placeholder="0.00"
-            value={withdrawAmount}
-            onChange={(e) => setWithdrawAmount(e.target.value)}
-            className="flex-1 bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-celo-green"
-          />
-          <button
-            onClick={() => setWithdrawAmount(parseFloat(depositedcUSD).toFixed(4))}
-            className="text-xs text-celo-green hover:text-celo-green/80 px-2"
-          >
-            MAX
-          </button>
-        </div>
-        <button
-          onClick={handleWithdraw}
-          disabled={loading || !withdrawAmount}
-          className="w-full bg-gray-700 hover:bg-gray-600 disabled:opacity-40 text-white font-semibold py-2.5 rounded-xl transition-colors"
-        >
-          {loading ? "Processing..." : "Withdraw"}
-        </button>
       </div>
     </div>
   );
