@@ -1,0 +1,45 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="512" height="512" rx="120" fill="#060912"/>
+
+  <!-- Outer glow ring -->
+  <circle cx="256" cy="256" r="190" stroke="url(#ringGrad)" stroke-width="3" opacity="0.4"/>
+
+  <!-- Inner circle background -->
+  <circle cx="256" cy="256" r="160" fill="url(#bgGrad)" opacity="0.15"/>
+
+  <!-- C shape (left arc) -->
+  <path d="M256 110 C168 110 100 176 100 256 C100 336 168 402 256 402 C256 402 256 370 256 370 C186 370 132 318 132 256 C132 194 186 142 256 142 Z"
+    fill="url(#greenGrad)"/>
+
+  <!-- L shape (right vertical + horizontal) -->
+  <rect x="272" y="142" width="38" height="196" rx="10" fill="url(#goldGrad)"/>
+  <rect x="272" y="302" width="110" height="38" rx="10" fill="url(#goldGrad)"/>
+
+  <!-- Center dot (Celo inspired) -->
+  <circle cx="256" cy="256" r="18" fill="url(#dotGrad)"/>
+
+  <!-- Definitions -->
+  <defs>
+    <linearGradient id="greenGrad" x1="100" y1="110" x2="256" y2="402" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#35D07F"/>
+      <stop offset="100%" stop-color="#28C470"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="272" y1="142" x2="382" y2="340" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FBCC5C"/>
+      <stop offset="100%" stop-color="#F0B429"/>
+    </linearGradient>
+    <linearGradient id="bgGrad" x1="96" y1="96" x2="416" y2="416" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#35D07F"/>
+      <stop offset="100%" stop-color="#FBCC5C"/>
+    </linearGradient>
+    <linearGradient id="dotGrad" x1="238" y1="238" x2="274" y2="274" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#35D07F"/>
+      <stop offset="100%" stop-color="#FBCC5C"/>
+    </linearGradient>
+    <linearGradient id="ringGrad" x1="66" y1="66" x2="446" y2="446" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#35D07F"/>
+      <stop offset="100%" stop-color="#FBCC5C"/>
+    </linearGradient>
+  </defs>
+</svg>
